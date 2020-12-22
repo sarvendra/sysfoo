@@ -30,6 +30,7 @@ pipeline {
         docker {
           image 'maven:3.6.3-jdk-11-slim'
         }
+
       }
       when {
         branch 'master'
@@ -41,7 +42,7 @@ pipeline {
     }
 
     stage('Docker Build and Publish') {
-      when  {
+      when {
         branch 'master'
       }
       steps {
@@ -54,6 +55,16 @@ pipeline {
           }
         }
 
+      }
+    }
+
+    stage('docker compose') {
+	when {
+        branch 'master'
+      }
+      agent any
+      steps {
+        sh 'docker-compose up -d'
       }
     }
 
